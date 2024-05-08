@@ -6,6 +6,16 @@ public struct ContentView: View {
     public var body: some View {
         Text("Hello, World!")
             .padding()
+            .onAppear {
+                NetworkManager.shared.fetchExampleHomepage { result in
+                    switch result {
+                        case .success(let html):
+                            print("page HTML: \(html)")
+                        case .failure(let error):
+                            print("Error fetching page: \(error)")
+                    }
+                }
+            }
     }
 }
 
