@@ -5,7 +5,10 @@ import PackageDescription
     import ProjectDescription
 
     let packageSettings = PackageSettings(
-        productTypes: ["Alamofire": .framework]
+        productTypes: [
+            "Alamofire": .framework,
+            "cmark": .staticFramework
+        ]
     )
 #endif
 
