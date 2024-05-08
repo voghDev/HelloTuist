@@ -17,7 +17,8 @@ let project = Project(
             resources: ["TuistExample/Resources/**"],
             dependencies: [
                 .external(name: "Alamofire"),
-                .xcframework(path: "Dependencies/cmark.xcframework", status: .required)
+                .xcframework(path: "Dependencies/cmark.xcframework", status: .required),
+                .xcframework(path: "Dependencies/CommonMark.xcframework", status: .required)
             ]
         ),
         .target(

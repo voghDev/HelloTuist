@@ -7,7 +7,8 @@ import PackageDescription
     let packageSettings = PackageSettings(
         productTypes: [
             "Alamofire": .framework,
-            "cmark": .staticFramework
+            "cmark": .staticFramework,
+            "CommonMark": .staticFramework
         ]
     )
 #endif

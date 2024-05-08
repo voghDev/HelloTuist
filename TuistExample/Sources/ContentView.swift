@@ -15,6 +15,8 @@ public struct ContentView: View {
                             print("Error fetching page: \(error)")
                     }
                 }
+                let util = CmarkUtil()
+                util.cmarkExample()
             }
     }
 }
