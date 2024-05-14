@@ -1,0 +1,340 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)
+// swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name CommonMark
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import cmark
+extension CommonMark.Block {
+  public func renderCommonMark() -> Swift.String
+  public func renderHTML(options: CommonMark.Document.RenderingOptions = .init()) -> Swift.String
+}
+public enum Block : Swift.Hashable {
+  case blockQuote(CommonMark.BlockQuote)
+  case bulletList(CommonMark.BulletList)
+  case orderedList(CommonMark.OrderedList)
+  case code(CommonMark.CodeBlock)
+  case html(CommonMark.HTMLBlock)
+  case paragraph(CommonMark.Paragraph)
+  case heading(CommonMark.Heading)
+  case thematicBreak
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Block, b: CommonMark.Block) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct ThematicBreak {
+  public init()
+}
+@_functionBuilder public enum BlockArrayBuilder {
+  public static func buildBlock(_ components: [CommonMark.Block]...) -> [CommonMark.Block]
+  public static func buildExpression(_ expression: Swift.String) -> [CommonMark.Block]
+  public static func buildExpression(_ expression: CommonMark.BlockQuote) -> [CommonMark.Block]
+  public static func buildExpression(_ expression: CommonMark.BulletList) -> [CommonMark.Block]
+  public static func buildExpression(_ expression: CommonMark.OrderedList) -> [CommonMark.Block]
+  public static func buildExpression(_ expression: CommonMark.CodeBlock) -> [CommonMark.Block]
+  public static func buildExpression(_ expression: CommonMark.HTMLBlock) -> [CommonMark.Block]
+  public static func buildExpression(_ expression: CommonMark.Paragraph) -> [CommonMark.Block]
+  public static func buildExpression(_ expression: CommonMark.Heading) -> [CommonMark.Block]
+  public static func buildExpression(_: CommonMark.ThematicBreak) -> [CommonMark.Block]
+  public static func buildArray(_ components: [[CommonMark.Block]]) -> [CommonMark.Block]
+  public static func buildOptional(_ component: [CommonMark.Block]?) -> [CommonMark.Block]
+  public static func buildEither(first component: [CommonMark.Block]) -> [CommonMark.Block]
+  public static func buildEither(second component: [CommonMark.Block]) -> [CommonMark.Block]
+}
+public struct BlockQuote : Swift.Hashable {
+  public var items: [CommonMark.Block]
+  public init(items: [CommonMark.Block])
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.BlockQuote, b: CommonMark.BlockQuote) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.BlockQuote {
+  public init(@CommonMark.BlockArrayBuilder items: () -> [CommonMark.Block])
+}
+public struct BulletList : Swift.Hashable {
+  public var items: [CommonMark.ListItem]
+  public var tight: Swift.Bool
+  public init(items: [CommonMark.ListItem], tight: Swift.Bool)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.BulletList, b: CommonMark.BulletList) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.BulletList {
+  public init(tight: Swift.Bool = true, @CommonMark.ListItemArrayBuilder items: () -> [CommonMark.ListItem])
+}
+public struct CodeBlock : Swift.Hashable {
+  public var code: Swift.String
+  public var language: Swift.String?
+  public init(code: Swift.String, language: Swift.String? = nil)
+  public init(language: Swift.String? = nil, code: () -> Swift.String)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.CodeBlock, b: CommonMark.CodeBlock) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct HTMLBlock : Swift.Hashable {
+  public var html: Swift.String
+  public init(html: Swift.String)
+  public init(html: () -> Swift.String)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.HTMLBlock, b: CommonMark.HTMLBlock) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct Heading : Swift.Hashable {
+  public var text: [CommonMark.Inline]
+  public var level: Swift.Int
+  public init(text: [CommonMark.Inline], level: Swift.Int)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Heading, b: CommonMark.Heading) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.Heading {
+  public init(level: Swift.Int = 1, @CommonMark.InlineArrayBuilder text: () -> [CommonMark.Inline])
+}
+public struct ListItem : Swift.Hashable {
+  public var blocks: [CommonMark.Block]
+  public init(blocks: [CommonMark.Block])
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.ListItem, b: CommonMark.ListItem) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.ListItem {
+  public init(@CommonMark.BlockArrayBuilder blocks: () -> [CommonMark.Block])
+}
+@_functionBuilder public enum ListItemArrayBuilder {
+  public static func buildBlock(_ components: [CommonMark.ListItem]...) -> [CommonMark.ListItem]
+  public static func buildExpression(_ expression: Swift.String) -> [CommonMark.ListItem]
+  public static func buildExpression(_ expression: CommonMark.ListItem) -> [CommonMark.ListItem]
+  public static func buildArray(_ components: [[CommonMark.ListItem]]) -> [CommonMark.ListItem]
+  public static func buildOptional(_ component: [CommonMark.ListItem]?) -> [CommonMark.ListItem]
+  public static func buildEither(first component: [CommonMark.ListItem]) -> [CommonMark.ListItem]
+  public static func buildEither(second component: [CommonMark.ListItem]) -> [CommonMark.ListItem]
+}
+public struct OrderedList : Swift.Hashable {
+  public var items: [CommonMark.ListItem]
+  public var start: Swift.Int
+  public var tight: Swift.Bool
+  public init(items: [CommonMark.ListItem], start: Swift.Int, tight: Swift.Bool)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.OrderedList, b: CommonMark.OrderedList) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.OrderedList {
+  public init(start: Swift.Int = 1, tight: Swift.Bool = true, @CommonMark.ListItemArrayBuilder items: () -> [CommonMark.ListItem])
+}
+public struct Paragraph : Swift.Hashable {
+  public var text: [CommonMark.Inline]
+  public init(text: [CommonMark.Inline])
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Paragraph, b: CommonMark.Paragraph) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.Paragraph {
+  public init(@CommonMark.InlineArrayBuilder text: () -> [CommonMark.Inline])
+}
+extension CommonMark.Document {
+  public func renderCommonMark() -> Swift.String
+  public func renderHTML(options: CommonMark.Document.RenderingOptions = .init()) -> Swift.String
+}
+extension CommonMark.Document : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public struct Document : Swift.Hashable {
+  public var blocks: [CommonMark.Block]
+  public init(markdown: Swift.String, options: CommonMark.Document.ParsingOptions = .init()) throws
+  public init(markdown: Foundation.Data, options: CommonMark.Document.ParsingOptions = .init()) throws
+  public init(contentsOf url: Foundation.URL, options: CommonMark.Document.ParsingOptions = .init()) throws
+  public init(blocks: [CommonMark.Block])
+  public init(@CommonMark.BlockArrayBuilder blocks: () -> [CommonMark.Block])
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Document, b: CommonMark.Document) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.Document : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension CommonMark.Document {
+  public enum ParsingError : Swift.Error {
+    case invalidData
+    public static func == (a: CommonMark.Document.ParsingError, b: CommonMark.Document.ParsingError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+extension CommonMark.Document {
+  public struct ParsingOptions : Swift.OptionSet {
+    public var rawValue: Swift.Int32
+    public init(rawValue: Swift.Int32 = CMARK_OPT_DEFAULT)
+    public static let smart: CommonMark.Document.ParsingOptions
+    public typealias ArrayLiteralElement = CommonMark.Document.ParsingOptions
+    public typealias Element = CommonMark.Document.ParsingOptions
+    public typealias RawValue = Swift.Int32
+  }
+}
+extension CommonMark.Document {
+  public struct RenderingOptions : Swift.OptionSet {
+    public var rawValue: Swift.Int32
+    public init(rawValue: Swift.Int32 = CMARK_OPT_DEFAULT)
+    public static let sourcePosition: CommonMark.Document.RenderingOptions
+    public static let hardBreaks: CommonMark.Document.RenderingOptions
+    public static let unsafe: CommonMark.Document.RenderingOptions
+    public static let noBreaks: CommonMark.Document.RenderingOptions
+    public typealias ArrayLiteralElement = CommonMark.Document.RenderingOptions
+    public typealias Element = CommonMark.Document.RenderingOptions
+    public typealias RawValue = Swift.Int32
+  }
+}
+public struct Emphasis : Swift.Hashable {
+  public var children: [CommonMark.Inline]
+  public init(children: [CommonMark.Inline])
+  public init(_ text: Swift.String)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Emphasis, b: CommonMark.Emphasis) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.Emphasis {
+  public init(@CommonMark.InlineArrayBuilder children: () -> [CommonMark.Inline])
+}
+public struct Image : Swift.Hashable {
+  public var children: [CommonMark.Inline]
+  public var url: Foundation.URL?
+  public var title: Swift.String?
+  public init(children: [CommonMark.Inline], url: Foundation.URL?, title: Swift.String? = nil)
+  public init(url: Foundation.URL?, alt: Swift.String? = nil, title: Swift.String? = nil)
+  public init(_ destination: Swift.StaticString, alt: Swift.String? = nil, title: Swift.String? = nil)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Image, b: CommonMark.Image) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.Inline {
+  public func renderCommonMark() -> Swift.String
+  public func renderHTML(options: CommonMark.Document.RenderingOptions = .init()) -> Swift.String
+}
+public enum Inline : Swift.Hashable {
+  case text(Swift.String)
+  case softBreak
+  case lineBreak
+  case code(CommonMark.InlineCode)
+  case html(CommonMark.InlineHTML)
+  case emphasis(CommonMark.Emphasis)
+  case strong(CommonMark.Strong)
+  case link(CommonMark.Link)
+  case image(CommonMark.Image)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Inline, b: CommonMark.Inline) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct SoftBreak {
+  public init()
+}
+public struct LineBreak {
+  public init()
+}
+@_functionBuilder public enum InlineArrayBuilder {
+  public static func buildBlock(_ components: [CommonMark.Inline]...) -> [CommonMark.Inline]
+  public static func buildExpression(_ expression: Swift.String) -> [CommonMark.Inline]
+  public static func buildExpression(_: CommonMark.SoftBreak) -> [CommonMark.Inline]
+  public static func buildExpression(_: CommonMark.LineBreak) -> [CommonMark.Inline]
+  public static func buildExpression(_ expression: CommonMark.InlineCode) -> [CommonMark.Inline]
+  public static func buildExpression(_ expression: CommonMark.InlineHTML) -> [CommonMark.Inline]
+  public static func buildExpression(_ expression: CommonMark.Emphasis) -> [CommonMark.Inline]
+  public static func buildExpression(_ expression: CommonMark.Strong) -> [CommonMark.Inline]
+  public static func buildExpression(_ expression: CommonMark.Link) -> [CommonMark.Inline]
+  public static func buildExpression(_ expression: CommonMark.Image) -> [CommonMark.Inline]
+  public static func buildArray(_ components: [[CommonMark.Inline]]) -> [CommonMark.Inline]
+  public static func buildOptional(_ component: [CommonMark.Inline]?) -> [CommonMark.Inline]
+  public static func buildEither(first component: [CommonMark.Inline]) -> [CommonMark.Inline]
+  public static func buildEither(second component: [CommonMark.Inline]) -> [CommonMark.Inline]
+}
+public struct InlineCode : Swift.Hashable {
+  public var code: Swift.String
+  public init(_ code: Swift.String)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.InlineCode, b: CommonMark.InlineCode) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct InlineHTML : Swift.Hashable {
+  public var html: Swift.String
+  public init(_ html: Swift.String)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.InlineHTML, b: CommonMark.InlineHTML) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct Link : Swift.Hashable {
+  public var children: [CommonMark.Inline]
+  public var url: Foundation.URL?
+  public var title: Swift.String?
+  public init(children: [CommonMark.Inline], url: Foundation.URL?, title: Swift.String? = nil)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Link, b: CommonMark.Link) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.Link {
+  public init(url: Foundation.URL?, title: Swift.String? = nil, @CommonMark.InlineArrayBuilder children: () -> [CommonMark.Inline])
+  public init(_ destination: Swift.StaticString, title: Swift.String? = nil, @CommonMark.InlineArrayBuilder children: () -> [CommonMark.Inline])
+}
+public struct Strong : Swift.Hashable {
+  public var children: [CommonMark.Inline]
+  public init(children: [CommonMark.Inline])
+  public init(_ text: Swift.String)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: CommonMark.Strong, b: CommonMark.Strong) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CommonMark.Strong {
+  public init(@CommonMark.InlineArrayBuilder children: () -> [CommonMark.Inline])
+}
+extension CommonMark.Document {
+  @available(*, deprecated, message: "This property has been removed and returns an empty set")
+  public var imageURLs: Swift.Set<Swift.String> {
+    get
+  }
+  @available(*, deprecated, message: "Use init(markdown:options:) to create a document from a string")
+  public init(_ content: Swift.String)
+  @available(*, deprecated, message: "Use init(contentsOf:options:) to create a document from the contents of a URL")
+  public init(contentsOfFile path: Swift.String) throws
+  @available(*, deprecated, message: "Use init(contentsOf:options:) to create a document from the contents of a URL")
+  public init(contentsOfFile path: Swift.String, encoding: Swift.String.Encoding) throws
+}
+extension CommonMark.Document.ParsingError : Swift.Equatable {}
+extension CommonMark.Document.ParsingError : Swift.Hashable {}

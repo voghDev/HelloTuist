@@ -15,7 +15,11 @@ let project = Project(
             ),
             sources: ["TuistExample/Sources/**"],
             resources: ["TuistExample/Resources/**"],
-            dependencies: [.external(name: "Alamofire")]
+            dependencies: [
+                .external(name: "Alamofire"),
+                .xcframework(path: "Dependencies/cmark.xcframework", status: .required),
+                .xcframework(path: "Dependencies/CommonMark.xcframework", status: .required)
+            ]
         ),
         .target(
             name: "TuistExampleTests",
